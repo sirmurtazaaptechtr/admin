@@ -10,7 +10,9 @@ if (isset($_POST["loginBtn"])) {
   $count = mysqli_num_rows($res);
   if ($count > 0) {
     $_SESSION['ADMIN_LOGIN'] = 'yes';
-    header('location:categories.php');    
+    $_SESSION['ADMIN_USERNAME'] = $username;
+    header('location:categories.php');
+    die();
   } else {
     $msg = '
     <div class="col-12 alert alert-danger alert-dismissible">
