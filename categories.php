@@ -1,7 +1,25 @@
 <?php
 include('menu.inc.php');
+if(isset($_GET['type']) && $_GET['type'] != ''){
+  $type = get_safe_value($conn,$_GET['type']);
+  if($type == 'status')
+  {
+    $op = get_safe_value($conn,$_GET['op']);
+    $statusID = get_safe_value($conn,$_GET['id']);
+    
+    if($op == 'active'){
+      $status = 1;
+    }else{
+      $status = 0;
+    }
+    $update_status = "update categories set status = '$status' where id = '$statusID'";
+    mysqli_query($conn,$update_status);
+  }
+
+}
 $sql = 'SELECT * FROM categories ORDER BY `categories`';
 $res = mysqli_query($conn, $sql);
+
 ?>
 <main id="main" class="main">
 
@@ -30,7 +48,7 @@ $res = mysqli_query($conn, $sql);
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">ID</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">Categories</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -46,9 +64,9 @@ $res = mysqli_query($conn, $sql);
                     <td>
                       <?php 
                         if($rows['status'] == 1){
-                          echo "<a href='?type=status&op=deactive&id".$rows['id']."'>Active</a>";
+                          echo "<a href='?type=status&op=deactive&id=".$rows['id']."'>Active</a>";
                         }else{
-                          echo "<a href='?type=status&op=active&id".$rows['id']."'>Deactive</a>";
+                          echo "<a href='?type=status&op=active&id=".$rows['id']."'>Deactive</a>";
                         }
                       ?>
                     </td>
